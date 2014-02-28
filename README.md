@@ -1,13 +1,13 @@
 # flycheck-pos-tip
 
-This is extension for [Flycheck][flycheck].
-This extension to display errors under point using [pos-tip][syohex/pos-tip].
+This is extension for [Flycheck](https://github.com/flycheck/flycheck).
+This extension to display errors under point using [pos-tip](https://github.com/syohex/pos-tip).
 
 ## Installation
 
 As usual, from [MELPA](http://melpa.milkbox.net).
 
-In your Cask_ file:
+In your [Cask](http://cask.github.io) file:
 
 ```
 (source gnu)
