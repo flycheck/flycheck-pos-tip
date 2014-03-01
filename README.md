@@ -3,6 +3,8 @@
 This is extension for [Flycheck](https://github.com/flycheck/flycheck).
 This extension to display errors under point using [pos-tip](https://github.com/syohex/pos-tip).
 
+![Emacs Screenshot with flycheck-pos-tip](https://github.com/flycheck/flycheck-pos-tip/raw/master/screenshot.png)
+
 ## Installation
 
 As usual, from [MELPA](http://melpa.milkbox.net).
