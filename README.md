@@ -1,7 +1,7 @@
 # flycheck-pos-tip
 
 This is extension for [Flycheck](https://github.com/flycheck/flycheck).
-This extension to display errors under point using [pos-tip](https://github.com/syohex/pos-tip).
+This extension to display errors under point using [popup.el](https://github.com/auto-complete/popup-el).
 
 ![Emacs Screenshot with flycheck-pos-tip](https://github.com/flycheck/flycheck-pos-tip/raw/master/screenshot.png)
 
@@ -24,15 +24,6 @@ In your `init.el`:
 (eval-after-load 'flycheck
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-```
-
-## Usage
-
-### Configure
-
-```
-(custom-set-variables
- '(flycheck-pos-tip-timeout 10))
 ```
 
 ## License
