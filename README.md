@@ -11,7 +11,7 @@ As usual, from [MELPA](http://melpa.milkbox.net).
 
 In your [Cask](http://cask.github.io) file:
 
-```
+```cl
 (source gnu)
 (source melpa)
 
@@ -20,7 +20,7 @@ In your [Cask](http://cask.github.io) file:
 
 In your `init.el`:
 
-```
+```cl
 (eval-after-load 'flycheck
   '(custom-set-variables
    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
