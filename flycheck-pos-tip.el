@@ -4,6 +4,7 @@
 ;; Copyright (C) 2014 Akiha Senda
 
 ;; Author: Akiha Senda <senda.akiha@gmail.com>
+;; Maintainer: Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; URL: https://github.com/flycheck/flycheck-pos-tip
 ;; Keywords: tools, convenience
 ;; Version: 0.0.1
