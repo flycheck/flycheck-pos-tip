@@ -21,9 +21,9 @@ In your [Cask](http://cask.github.io) file:
 In your `init.el`:
 
 ```cl
-(eval-after-load 'flycheck
-  '(custom-set-variables
-   '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
+(with-eval-after-load 'flycheck
+  (setq flycheck-display-errors-function
+        #’flycheck-pos-tip-error-messages)
 ```
 
 ## Usage
