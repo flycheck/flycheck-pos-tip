@@ -1,7 +1,7 @@
 # flycheck-pos-tip
 
-This is extension for [Flycheck](https://github.com/flycheck/flycheck).
-This extension to display errors under point using [pos-tip](https://github.com/syohex/pos-tip).
+This [Flycheck](https://github.com/flycheck/flycheck) extension shows errors
+under point in [pos-tip](https://github.com/syohex/pos-tip) popups.
 
 ![Emacs Screenshot with flycheck-pos-tip](https://github.com/flycheck/flycheck-pos-tip/raw/master/screenshot.png)
 
