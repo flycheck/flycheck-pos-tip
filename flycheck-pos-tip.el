@@ -60,11 +60,10 @@ Defaults to 60 seconds."
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS in a graphical tooltip."
-  (-when-let (messages (-keep #'flycheck-error-message errors))
-    (pos-tip-show
-     (mapconcat 'identity messages "\n")
-     nil nil nil
-     flycheck-pos-tip-timeout)))
+  (when errors
+    (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
+      (pos-tip-show (mapconcat #'identity messages "\n\n")
+                    nil nil nil flycheck-pos-tip-timeout))))
 
 (provide 'flycheck-pos-tip)
 
