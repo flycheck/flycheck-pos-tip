@@ -1,6 +1,7 @@
 ;;; flycheck-pos-tip.el --- Flycheck errors display in tooltip
 
-;; Copyright (C) 2014  Akiha Senda
+;; Copyright (C) 2015 Sebastian Wiesner <swiesner@lunaryorn.com>
+;; Copyright (C) 2014 Akiha Senda
 
 ;; Author: Akiha Senda <senda.akiha@gmail.com>
 ;; URL: https://github.com/flycheck/flycheck-pos-tip
