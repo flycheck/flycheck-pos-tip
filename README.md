@@ -7,7 +7,7 @@ This extension to display errors under point using [pos-tip](https://github.com/
 
 ## Installation
 
-As usual, from [MELPA](http://melpa.milkbox.net).
+As usual, from [MELPA](https://melpa.org).
 
 In your [Cask](http://cask.github.io) file:
 
