@@ -6,7 +6,7 @@
 ;; URL: https://github.com/flycheck/flycheck-pos-tip
 ;; Keywords: tools, convenience
 ;; Version: 0.0.1
-;; Package-Requires: ((flycheck "0.18") (pos-tip "0.4.5"))
+;; Package-Requires: ((dash "2.12") (flycheck "0.18") (pos-tip "0.4.6"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -38,6 +38,7 @@
 
 ;;; Code:
 
+(require 'dash)
 (require 'flycheck)
 (require 'pos-tip)
 
