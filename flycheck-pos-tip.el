@@ -57,13 +57,27 @@ Defaults to 60 seconds."
   :group 'flycheck-pos-tip
   :type 'integer)
 
+(defcustom flycheck-pos-tip-show-function #'flycheck-pos-tip-show
+  "A function to show messages in a popup.
+
+The function shall take a single argument, a list of messages as
+strings, and shall show theses messages in a graphical popup."
+  :group 'flycheck-pos-tip
+  :type 'function)
+
+(defun flycheck-pos-tip-show (messages)
+  "Show a pos-tip popup with MESSAGES.
+
+Uses `pos-tip-show' under the hood."
+  (pos-tip-show (mapconcat #'identity messages "\n\n")
+                nil nil nil flycheck-pos-tip-timeout))
+
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS in a graphical tooltip."
   (when errors
     (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
-      (pos-tip-show (mapconcat #'identity messages "\n\n")
-                    nil nil nil flycheck-pos-tip-timeout))))
+      (funcall flycheck-pos-tip-show-function messages))))
 
 (provide 'flycheck-pos-tip)
 
