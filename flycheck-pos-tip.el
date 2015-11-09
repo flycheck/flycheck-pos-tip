@@ -6,7 +6,7 @@
 ;; URL: https://github.com/flycheck/flycheck-pos-tip
 ;; Keywords: tools, convenience
 ;; Version: 0.0.1
-;; Package-Requires: ((flycheck "0.18") (popup "0.5.0"))
+;; Package-Requires: ((flycheck "0.18") (pos-tip "0.4.5"))
 
 ;; This file is not part of GNU Emacs.
 
@@ -33,16 +33,25 @@
 ;;   '(custom-set-variables
 ;;    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
+;; (custom-set-variables
+;;  '(flycheck-pos-tip-timeout 10))
+
 ;;; Code:
 
 (require 'flycheck)
-(require 'popup)
+(require 'pos-tip)
 
 (defgroup flycheck-pos-tip nil
   "Flycheck errors display in tooltip"
   :prefix "flycheck-pos-tip-"
   :group 'flycheck
   :link '(url-link :tag "Github" "https://github.com/flycheck/flycheck-pos-tip"))
+
+(defcustom flycheck-pos-tip-timeout 60
+  "Time-out second of the tool tip display.
+Default is 60 seconds."
+  :group 'flycheck-pos-tip
+  :type 'integer)
 
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
@@ -52,8 +61,10 @@ Concatenate all non-nil messages of ERRORS separated by empty
 lines, and display them with `pos-tip-show-no-propertize', which shows
  the messages in tooltip, depending on the number of lines."
   (-when-let (messages (-keep #'flycheck-error-message errors))
-    (popup-tip
-     (mapconcat 'identity messages "\n"))))
+    (pos-tip-show-no-propertize
+     (mapconcat 'identity messages "\n")
+     nil nil nil
+     flycheck-pos-tip-timeout)))
 
 (provide 'flycheck-pos-tip)
 
