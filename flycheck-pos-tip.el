@@ -46,13 +46,6 @@
   :group 'flycheck
   :link '(url-link :tag "Github" "https://github.com/flycheck/flycheck-pos-tip"))
 
-(defcustom flycheck-pos-tip-timeout 60
-  "Time in seconds to hide the tooltip after.
-
-Defaults to 60 seconds."
-  :group 'flycheck-pos-tip
-  :type 'integer)
-
 (defcustom flycheck-pos-tip-show-function #'flycheck-pos-tip-show
   "A function to show messages in a popup.
 
@@ -65,8 +58,7 @@ strings, and shall show theses messages in a graphical popup."
   "Show a pos-tip popup with MESSAGES.
 
 Uses `pos-tip-show' under the hood."
-  (pos-tip-show (mapconcat #'identity messages "\n\n")
-                nil nil nil flycheck-pos-tip-timeout))
+  (pos-tip-show (mapconcat #'identity messages "\n\n")))
 
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
