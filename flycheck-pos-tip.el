@@ -27,16 +27,12 @@
 
 ;;; Commentary:
 
-;; Add error message display method for Flycheck.
+;; Provide an error display function to show errors in a tooltip.
 
 ;;;; Setup
 
-;; (eval-after-load 'flycheck
-;;   '(custom-set-variables
-;;    '(flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
-
-;; (custom-set-variables
-;;  '(flycheck-pos-tip-timeout 10))
+;; (with-eval-after-load 'flycheck
+;;   (setq flycheck-display-errors-function #'flycheck-pos-tip-error-messages)))
 
 ;;; Code:
 
