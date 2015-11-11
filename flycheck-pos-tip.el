@@ -67,6 +67,25 @@ Uses `pos-tip-show' under the hood."
     (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
       (funcall flycheck-pos-tip-show-function messages))))
 
+(defvar flycheck-pos-tip-old-display-function nil
+  "The former value of `flycheck-display-errors-function'.")
+
+;;;###autoload
+(define-minor-mode flycheck-pos-tip-mode
+  "A minor mode to show Flycheck error messages in a popup."
+  :global t
+  :group 'flycheck
+  (if flycheck-pos-tip-mode
+      (progn
+        (setq flycheck-pos-tip-old-display-function
+              flycheck-display-errors-function
+              flycheck-display-errors-function
+              #'flycheck-pos-tip-error-messages)
+        (add-hook 'post-command-hook #'flycheck-pos-tip-hide))
+    (setq flycheck-display-errors-function
+          flycheck-pos-tip-old-display-function)
+    (remove-hook 'post-command-hook 'flycheck-pos-tip-hide)))
+
 (provide 'flycheck-pos-tip)
 
 ;;; flycheck-pos-tip.el ends here
