@@ -60,6 +60,10 @@ strings, and shall show theses messages in a graphical popup."
 Uses `pos-tip-show' under the hood."
   (pos-tip-show (mapconcat #'identity messages "\n\n")))
 
+(defun flycheck-pos-tip-hide ()
+  "Hide the Flycheck tooltip."
+  (pos-tip-hide))
+
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS in a graphical tooltip."
