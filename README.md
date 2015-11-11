@@ -22,17 +22,7 @@ In your `init.el`:
 
 ```cl
 (with-eval-after-load 'flycheck
-  (setq flycheck-display-errors-function
-        #’flycheck-pos-tip-error-messages)
-```
-
-## Usage
-
-### Configure
-
-```
-(custom-set-variables
- '(flycheck-pos-tip-timeout 10))
+  (flycheck-pos-tip-mode)
 ```
 
 ## License
