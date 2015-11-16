@@ -1,4 +1,4 @@
-;;; flycheck-pos-tip.el --- Flycheck errors display in tooltip
+;;; flycheck-pos-tip.el --- Display Flycheck errors in GUI tooltips -*- lexical-binding: t; -*-
 
 ;; Copyright (C) 2015 Sebastian Wiesner <swiesner@lunaryorn.com>
 ;; Copyright (C) 2014 Akiha Senda
