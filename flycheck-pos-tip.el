@@ -54,11 +54,18 @@ strings, and shall show theses messages in a graphical popup."
   :group 'flycheck-pos-tip
   :type 'function)
 
+(defcustom flycheck-pos-tip-timeout 5
+  "Time in seconds to hide the tooltip after."
+  :group 'flycheck-pos-tip
+  :type 'number
+  :package-version '(flycheck-pos-tip . "0.2"))
+
 (defun flycheck-pos-tip-show (messages)
   "Show a pos-tip popup with MESSAGES.
 
 Uses `pos-tip-show' under the hood."
-  (pos-tip-show (mapconcat #'identity messages "\n\n")))
+  (pos-tip-show (mapconcat #'identity messages "\n\n") nil nil nil
+                flycheck-pos-tip-timeout))
 
 (defun flycheck-pos-tip-hide ()
   "Hide the Flycheck tooltip."
