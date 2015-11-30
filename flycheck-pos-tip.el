@@ -54,6 +54,17 @@ strings, and shall show theses messages in a graphical popup."
   :group 'flycheck-pos-tip
   :type 'function)
 
+(defcustom flycheck-pos-tip-hide-function #'flycheck-pos-tip-hide
+  "A function to hide the current popup if any.
+
+The function shall take no arguments and shall hide the current
+popup if any.  The function may be called even if there is no
+popup being shown; it may not rely upon a popup being present.
+The function should be a no-op in this case."
+  :group 'flycheck-pos-tip
+  :type 'function
+  :package-version '(flycheck-pos-tip . "0.2"))
+
 (defcustom flycheck-pos-tip-timeout 5
   "Time in seconds to hide the tooltip after."
   :group 'flycheck-pos-tip
@@ -78,6 +89,10 @@ Uses `pos-tip-show' under the hood."
     (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
       (funcall flycheck-pos-tip-show-function messages))))
 
+(defun flycheck-pos-tip-hide-messages ()
+  "Hide messages currently being shown if any."
+  (funcall flycheck-pos-tip-hide-function))
+
 (defvar flycheck-pos-tip-old-display-function nil
   "The former value of `flycheck-display-errors-function'.")
 
@@ -94,11 +109,11 @@ Uses `pos-tip-show' under the hood."
                 flycheck-display-errors-function
                 #'flycheck-pos-tip-error-messages)
           (dolist (hook hooks)
-            (add-hook hook #'flycheck-pos-tip-hide)))
+            (add-hook hook #'flycheck-pos-tip-hide-messages)))
       (setq flycheck-display-errors-function
             flycheck-pos-tip-old-display-function)
       (dolist (hook hooks)
-        (remove-hook hook 'flycheck-pos-tip-hide)))))
+        (remove-hook hook 'flycheck-pos-tip-hide-messages)))))
 
 (provide 'flycheck-pos-tip)
 
