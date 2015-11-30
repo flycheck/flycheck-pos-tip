@@ -98,7 +98,24 @@ Uses `pos-tip-show' under the hood."
 
 ;;;###autoload
 (define-minor-mode flycheck-pos-tip-mode
-  "A minor mode to show Flycheck error messages in a popup."
+  "A minor mode to show Flycheck error messages in a popup.
+
+When called interactively, toggle `flycheck-pos-tip-mode'.  With
+prefix ARG, enable `flycheck-pos-tip-mode' if ARG is positive,
+otherwise disable it.
+
+When called from Lisp, enable `flycheck-pos-tip-mode' if ARG is
+omitted, nil or positive.  If ARG is `toggle', toggle
+`flycheck-pos-tip-mode'.  Otherwise behave as if called
+interactively.
+
+In `flycheck-pos-tip-mode' show Flycheck's error messages in a
+GUI tooltip.  This does not work on TTY frames.  You can provide
+your own function to show and hide the popup via
+`flycheck-pos-tip-show-function' and
+`flycheck-pos-tip-hide-function' respectively.  For instance you
+may use the popular popup.el library (see URL
+`https://github.com/auto-complete/popup-el')."
   :global t
   :group 'flycheck
   (let ((hooks '(post-command-hook focus-out-hook)))
