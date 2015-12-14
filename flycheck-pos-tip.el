@@ -50,7 +50,8 @@
   "A function to show messages in a popup.
 
 The function shall take a single argument, a list of messages as
-strings, and shall show theses messages in a graphical popup."
+strings, and shall show theses messages in a graphical popup.
+For TTY frames, see `flycheck-pos-tip-tty-show-function'."
   :group 'flycheck-pos-tip
   :type 'function)
 
@@ -65,8 +66,31 @@ The function should be a no-op in this case."
   :type 'function
   :package-version '(flycheck-pos-tip . "0.2"))
 
+(defcustom flycheck-pos-tip-tty-show-function
+  #'flycheck-pos-tip-tty-show
+  "A function to show messages on TTY frames.
+
+This function is called instead of
+`flycheck-pos-tip-show-function' on TTY frames."
+  :group 'flycheck-pos-tip
+  :type 'function
+  :package-version '(flycheck-pos-tip . "0.3"))
+
+(defcustom flycheck-pos-tip-tty-hide-function
+  #'identity
+  "A function to hide messages on TTY frames.
+
+This function is called instead of
+`flycheck-pos-tip-hide-function' on TTY frames."
+  :group 'flycheck-pos-tip
+  :type 'function
+  :package-version '(flycheck-pos-tip . "0.3"))
+
 (defcustom flycheck-pos-tip-timeout 5
-  "Time in seconds to hide the tooltip after."
+  "Time in seconds to hide the tooltip after.
+
+This setting currently affects only the default
+`flycheck-pos-tip-show-function'."
   :group 'flycheck-pos-tip
   :type 'number
   :package-version '(flycheck-pos-tip . "0.2"))
@@ -82,16 +106,27 @@ Uses `pos-tip-show' under the hood."
   "Hide the Flycheck tooltip."
   (pos-tip-hide))
 
+(defun flycheck-pos-tip-tty-show (messages)
+  "Show MESSAGES in the echo area."
+  (message "%s" (mapconcat #'identity messages "\n\n")))
+
 ;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
-  "Display ERRORS in a graphical tooltip."
+  "Display ERRORS in a graphical tooltip on GUI frames.
+
+On TTY frames, fall back to a regular echo-area message."
   (when errors
     (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
-      (funcall flycheck-pos-tip-show-function messages))))
+      (funcall (if (display-graphic-p)
+                   flycheck-pos-tip-show-function
+                 flycheck-pos-tip-tty-show-function)
+               messages))))
 
 (defun flycheck-pos-tip-hide-messages ()
   "Hide messages currently being shown if any."
-  (funcall flycheck-pos-tip-hide-function))
+  (funcall (if (display-graphic-p)
+               flycheck-pos-tip-hide-function
+             flycheck-pos-tip-tty-hide-function)))
 
 (defvar flycheck-pos-tip-old-display-function nil
   "The former value of `flycheck-display-errors-function'.")
@@ -110,9 +145,9 @@ omitted, nil or positive.  If ARG is `toggle', toggle
 interactively.
 
 In `flycheck-pos-tip-mode' show Flycheck's error messages in a
-GUI tooltip.  This does not work on TTY frames.  You can provide
-your own function to show and hide the popup via
-`flycheck-pos-tip-show-function' and
+GUI tooltip.  Falls back to `flycheck-pos-tip-tty-show-function'
+on TTY frames.  You can provide your own functions to show and
+hide the popup via `flycheck-pos-tip-show-function' and
 `flycheck-pos-tip-hide-function' respectively.  For instance you
 may use the popular popup.el library (see URL
 `https://github.com/auto-complete/popup-el')."
