@@ -46,61 +46,24 @@
   :group 'flycheck
   :link '(url-link :tag "Github" "https://github.com/flycheck/flycheck-pos-tip"))
 
-(defcustom flycheck-pos-tip-show-function #'flycheck-pos-tip-show
-  "A function to show messages in a popup.
-
-The function shall take a single argument, a list of messages as
-strings, and shall show theses messages in a graphical popup on
-GUI frames (on TTY frames, this function may use any means to
-report the messages)."
-  :group 'flycheck-pos-tip
-  :type 'function)
-
-(defcustom flycheck-pos-tip-hide-function #'flycheck-pos-tip-hide
-  "A function to hide the current popup if any.
-
-The function shall take no arguments and shall hide the current
-popup if any.  The function may be called even if there is no
-popup being shown; it may not rely upon a popup being present.
-The function should be a no-op in this case."
-  :group 'flycheck-pos-tip
-  :type 'function
-  :package-version '(flycheck-pos-tip . "0.2"))
-
 (defcustom flycheck-pos-tip-timeout 5
-  "Time in seconds to hide the tooltip after.
-
-This setting currently affects only the default
-`flycheck-pos-tip-show-function'."
+  "Time in seconds to hide the tooltip after."
   :group 'flycheck-pos-tip
   :type 'number
   :package-version '(flycheck-pos-tip . "0.2"))
 
-(defun flycheck-pos-tip-show (messages)
-  "Show MESSAGES, using a pos-tip popup on GUI frames.
-
-On TTY frames, fall back to `flycheck-display-error-messages'.
-Uses `pos-tip-show' under the hood."
-  (let ((message (mapconcat #'identity messages "\n\n")))
-    (if (display-graphic-p)
-        (pos-tip-show message nil nil nil flycheck-pos-tip-timeout)
-      (display-message-or-buffer message flycheck-error-message-buffer
-                                 'not-this-window))))
-
-(defun flycheck-pos-tip-hide ()
-  "Hide the Flycheck tooltip."
-  (pos-tip-hide))
-
-;;;###autoload
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS, using a graphical tooltip on GUI frames."
   (when errors
-    (-when-let (messages (-keep #'flycheck-error-format-message-and-id errors))
-      (funcall flycheck-pos-tip-show-function messages))))
+    (if (display-graphic-p)
+        (let ((message (mapconcat #'flycheck-error-format-message-and-id
+                                  errors "\n\n")))
+          (pos-tip-show message nil nil nil flycheck-pos-tip-timeout))
+      (flycheck-display-error-messages errors))))
 
 (defun flycheck-pos-tip-hide-messages ()
   "Hide messages currently being shown if any."
-  (funcall flycheck-pos-tip-hide-function))
+  (pos-tip-hide))
 
 (defvar flycheck-pos-tip-old-display-function nil
   "The former value of `flycheck-display-errors-function'.")
@@ -119,12 +82,8 @@ omitted, nil or positive.  If ARG is `toggle', toggle
 interactively.
 
 In `flycheck-pos-tip-mode' show Flycheck's error messages in a
-GUI tooltip.  Falls back to `flycheck-pos-tip-tty-show-function'
-on TTY frames.  You can provide your own functions to show and
-hide the popup via `flycheck-pos-tip-show-function' and
-`flycheck-pos-tip-hide-function' respectively.  For instance you
-may use the popular popup.el library (see URL
-`https://github.com/auto-complete/popup-el')."
+GUI tooltip.  Falls back to `flycheck-display-error-messages' on
+TTY frames."
   :global t
   :group 'flycheck
   (let ((hooks '(post-command-hook focus-out-hook)))
