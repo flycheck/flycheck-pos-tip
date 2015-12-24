@@ -52,6 +52,16 @@
   :type 'number
   :package-version '(flycheck-pos-tip . "0.2"))
 
+(defcustom flycheck-pos-tip-display-errors-tty-function
+  #'flycheck-display-error-messages
+  "Fallback function for error display on TTY frames.
+
+Like `flycheck-display-errors-function'; called to show error
+messages on TTY frames if `flycheck-pos-tip-mode' is active."
+  :group 'flycheck-pos-tip
+  :type 'function
+  :package-version '(flycheck-pos-tip . "0.2"))
+
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS, using a graphical tooltip on GUI frames."
   (when errors
@@ -59,7 +69,7 @@
         (let ((message (mapconcat #'flycheck-error-format-message-and-id
                                   errors "\n\n")))
           (pos-tip-show message nil nil nil flycheck-pos-tip-timeout))
-      (flycheck-display-error-messages errors))))
+      (funcall flycheck-pos-tip-display-errors-tty-function errors))))
 
 (defun flycheck-pos-tip-hide-messages ()
   "Hide messages currently being shown if any."
