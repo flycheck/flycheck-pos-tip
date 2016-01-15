@@ -2,6 +2,8 @@
 
 ## master (in development) ##
 
+- Add space between tooltip and bottom of line
+
 ## 0.2 (Jan 15, 2016) ##
 
 - Add `flycheck-pos-tip-timeout` [GH-9]
