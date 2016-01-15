@@ -1,5 +1,7 @@
 # Changelog #
 
+## master (in development) ##
+
 ## 0.2 (Jan 15, 2016) ##
 
 - Add `flycheck-pos-tip-timeout` [GH-9]
