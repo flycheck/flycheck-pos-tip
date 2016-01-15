@@ -67,9 +67,10 @@ messages on TTY frames if `flycheck-pos-tip-mode' is active."
   (when errors
     (if (display-graphic-p)
         (let ((message (mapconcat #'flycheck-error-format-message-and-id
-                                  errors "\n\n")))
+                                  errors "\n\n"))
+              (edges (window-pixel-edges)))
           (pos-tip-show message nil nil nil flycheck-pos-tip-timeout
-                        nil nil
+                        nil (cons (car edges) (cadr edges))
                         ;; Add a little offset to the tooltip to move it away
                         ;; from the corresponding text in the buffer.  We
                         ;; explicitly take the line height into account because
