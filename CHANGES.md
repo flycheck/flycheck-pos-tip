@@ -3,6 +3,7 @@
 ## master (in development) ##
 
 - Add space between tooltip and bottom of line
+- Don’t try to hide GUI tooltips on non-GUI displays [GH-18]
 
 ## 0.2 (Jan 15, 2016) ##
 
