@@ -82,7 +82,9 @@ messages on TTY frames if `flycheck-pos-tip-mode' is active."
 
 (defun flycheck-pos-tip-hide-messages ()
   "Hide messages currently being shown if any."
-  (pos-tip-hide))
+  (if (display-graphic-p)
+      (pos-tip-hide)
+    (flycheck-hide-error-buffer)))
 
 (defvar flycheck-pos-tip-old-display-function nil
   "The former value of `flycheck-display-errors-function'.")
