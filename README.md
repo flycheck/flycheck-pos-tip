@@ -22,7 +22,7 @@ In your `init.el`:
 
 ```cl
 (with-eval-after-load 'flycheck
-  (flycheck-pos-tip-mode)
+  (flycheck-pos-tip-mode))
 ```
 
 ## License
