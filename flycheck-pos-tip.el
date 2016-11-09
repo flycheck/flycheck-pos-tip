@@ -115,11 +115,11 @@ TTY frames."
                 flycheck-display-errors-function
                 #'flycheck-pos-tip-error-messages)
           (dolist (hook hooks)
-            (add-hook hook #'flycheck-pos-tip-hide-messages)))
+            (add-hook hook #'flycheck-pos-tip-hide-messages nil t)))
       (setq flycheck-display-errors-function
             flycheck-pos-tip-old-display-function)
       (dolist (hook hooks)
-        (remove-hook hook 'flycheck-pos-tip-hide-messages)))))
+        (remove-hook hook 'flycheck-pos-tip-hide-messages t)))))
 
 (provide 'flycheck-pos-tip)
 
