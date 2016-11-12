@@ -1,6 +1,6 @@
 # Changelog #
 
-## master (in development) ##
+## 0.3 (Nov 12, 2016) ##
 
 - Add space between tooltip and bottom of line
 - Don’t try to hide GUI tooltips on non-GUI displays [GH-18]
