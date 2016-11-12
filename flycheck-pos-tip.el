@@ -107,18 +107,28 @@ TTY frames."
   :global t
   :group 'flycheck
   (let ((hooks '(post-command-hook focus-out-hook)))
-    (if flycheck-pos-tip-mode
-        (progn
-          (setq flycheck-pos-tip-old-display-function
-                flycheck-display-errors-function
-                flycheck-display-errors-function
-                #'flycheck-pos-tip-error-messages)
-          (dolist (hook hooks)
-            (add-hook hook #'flycheck-pos-tip-hide-messages)))
-      (setq flycheck-display-errors-function
-            flycheck-pos-tip-old-display-function)
+    (cond
+     ;; Use our display function and remember the old one but only if we haven't
+     ;; yet configured it, to avoid activating twice.
+     ((and flycheck-pos-tip-mode
+           (not (eq flycheck-display-errors-function
+                    #'flycheck-pos-tip-error-messages)))
+      (setq flycheck-pos-tip-old-display-function
+            flycheck-display-errors-function
+            flycheck-display-errors-function
+            #'flycheck-pos-tip-error-messages)
       (dolist (hook hooks)
-        (remove-hook hook 'flycheck-pos-tip-hide-messages)))))
+        (add-hook hook #'flycheck-pos-tip-hide-messages)))
+     ;; Reset the display function and remove ourselves from all hooks but only
+     ;; if the mode is still active.
+     ((and (not flycheck-pos-tip-mode)
+           (eq flycheck-display-errors-function
+               #'flycheck-pos-tip-error-messages))
+      (setq flycheck-display-errors-function
+            flycheck-pos-tip-old-display-function
+            flycheck-pos-tip-old-display-function nil)
+      (dolist (hook hooks)
+        (remove-hook hook 'flycheck-pos-tip-hide-messages))))))
 
 (provide 'flycheck-pos-tip)
 
