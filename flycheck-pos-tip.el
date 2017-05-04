@@ -46,6 +46,12 @@
   :group 'flycheck
   :link '(url-link :tag "Github" "https://github.com/flycheck/flycheck-pos-tip"))
 
+(defcustom flycheck-pos-tip-max-width nil
+  "If non-nil, the max width of the tooltip in chars."
+  :group 'flycheck-pos-tip
+  :type 'number
+  :package-version '(flycheck-pos-tip . "0.4"))
+
 (defcustom flycheck-pos-tip-timeout 5
   "Time in seconds to hide the tooltip after."
   :group 'flycheck-pos-tip
@@ -70,7 +76,7 @@ messages on TTY frames if `flycheck-pos-tip-mode' is active."
                                   errors "\n\n"))
               (line-height (car (window-line-height))))
           (pos-tip-show message nil nil nil flycheck-pos-tip-timeout
-                        nil nil
+                        flycheck-pos-tip-max-width nil
                         ;; Add a little offset to the tooltip to move it away
                         ;; from the corresponding text in the buffer.  We
                         ;; explicitly take the line height into account because
