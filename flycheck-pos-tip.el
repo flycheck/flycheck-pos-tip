@@ -49,7 +49,8 @@
 (defcustom flycheck-pos-tip-max-width nil
   "If non-nil, the max width of the tooltip in chars."
   :group 'flycheck-pos-tip
-  :type 'number
+  :type '(choice (const :tag "Auto" nil)
+                 (integer :tag "Characters"))
   :package-version '(flycheck-pos-tip . "0.4"))
 
 (defcustom flycheck-pos-tip-timeout 5
