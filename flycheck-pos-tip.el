@@ -69,13 +69,22 @@ messages on TTY frames if `flycheck-pos-tip-mode' is active."
   :type 'function
   :package-version '(flycheck-pos-tip . "0.2"))
 
+(defvar-local flycheck-pos-tip--last-pos nil
+  "Last position for which a pos-tip was displayed.")
+
+(defun flycheck-pos-tip--check-pos ()
+  "Update flycheck-pos-tip--last-pos, returning t if there was no change."
+  (equal flycheck-pos-tip--last-pos
+         (setq flycheck-pos-tip--last-pos
+               (list (current-buffer) (buffer-modified-tick) (point)))))
+
 (defun flycheck-pos-tip-error-messages (errors)
   "Display ERRORS, using a graphical tooltip on GUI frames."
   (when errors
     (if (display-graphic-p)
-        (let ((message (mapconcat #'flycheck-error-format-message-and-id
-                                  errors "\n\n"))
+        (let ((message (flycheck-help-echo-all-error-messages errors))
               (line-height (car (window-line-height))))
+          (flycheck-pos-tip--check-pos)
           (pos-tip-show message nil nil nil flycheck-pos-tip-timeout
                         flycheck-pos-tip-max-width nil
                         ;; Add a little offset to the tooltip to move it away
@@ -88,9 +97,10 @@ messages on TTY frames if `flycheck-pos-tip-mode' is active."
 
 (defun flycheck-pos-tip-hide-messages ()
   "Hide messages currently being shown if any."
-  (if (display-graphic-p)
-      (pos-tip-hide)
-    (flycheck-hide-error-buffer)))
+  (unless (flycheck-pos-tip--check-pos)
+    (if (display-graphic-p)
+        (pos-tip-hide)
+      (flycheck-hide-error-buffer))))
 
 (defvar flycheck-pos-tip-old-display-function nil
   "The former value of `flycheck-display-errors-function'.")
