@@ -1,3 +1,17 @@
+> **This package is deprecated.**
+>
+> Flycheck 38 displays errors inline via the built-in `flycheck-annotate-mode`,
+> which covers what this package did without the GUI-only limitation - it works
+> in terminals as well, and needs no pos-tip.
+>
+> To migrate, remove flycheck-pos-tip from your config and enable:
+>
+> ```elisp
+> (global-flycheck-annotate-mode)
+> ```
+>
+> This repository will be archived and receives no further updates.
+
 # flycheck-pos-tip
 
 This [Flycheck](https://github.com/flycheck/flycheck) extension shows errors
